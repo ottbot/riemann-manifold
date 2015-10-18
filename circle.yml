@@ -1,0 +1,9 @@
+machine:
+  java:
+    version: oraclejdk8
+
+  post:
+    - wget https://aphyr.com/riemann/riemann-0.2.10.tar.bz2 && tar xfj riemann-0.2.10.tar.bz2
+    - ./riemann-0.2.10/bin/riemann:
+        background: true
+    - sleep 10
