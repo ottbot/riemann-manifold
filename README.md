@@ -1,8 +1,12 @@
 # riemann-manifold
 
-A library to monitor Manifold streams with Riemann, and more!
+_This repository refers to a library to monitor asynchronous programs._
+
+_Not to be confused with [Riemannian manifold](https://en.wikipedia.org/wiki/Riemannian_manifold)._
 
 ![Clojars Project](http://clojars.org/riemann-manifold/latest-version.svg)
+
+A library to monitor Manifold streams with Riemann, and more!
 
 ## Usage
 
