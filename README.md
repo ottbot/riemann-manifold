@@ -2,6 +2,8 @@
 
 A library to monitor Manifold streams with Riemann, and more!
 
+[![Clojars Project](http://clojars.org/riemann-manifold/latest-version.svg)]
+
 ## Usage
 
 You can read
