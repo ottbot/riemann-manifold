@@ -4,6 +4,10 @@ A library to monitor Manifold streams with Riemann, and more!
 
 ## Usage
 
+You can read
+[documention](https://fundingcircle.github.io/riemann-manifold) the
+all six-or-so functions, but these example are probably all you need.
+
 Open a Riemann connection:
 ````clojure
 (require '[riemann.client :as r])
