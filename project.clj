@@ -8,4 +8,7 @@
                  [manifold "0.1.0"]
                  [riemann-clojure-client "0.4.1"]]
 
-  :plugins [[codox "0.8.15"]])
+  :plugins [[codox "0.8.15"]]
+
+  :codox {:src-dir-uri "http://github.com/FundingCircle/riemann-manifold/blob/master/"
+          :src-linenum-anchor-prefix "L"})
