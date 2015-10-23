@@ -42,12 +42,14 @@ Send metrics to Riemann by putting events on an Manifold stream.
 ;;   :ttl 10000.0})
 ````
 
-Send metrics about a Manifold stream to Riemann.
+Send metrics about a Manifold stream to Riemann. Optional map to
+include in the events.
 
 ````clojure
 (def a (s/stream))
 
-(rm/instrument a c "a-stream" 10 10 "demo")
+(rm/instrument a c "a-stream" 10 {:ttl 100
+                                  :host "a.tx"})
 
 @(r/query c "service =~ \"a-stream%\"")
 

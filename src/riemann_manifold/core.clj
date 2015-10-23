@@ -28,19 +28,18 @@
   "Returns a collection of Riemann events for a stream. Each numeric
   metric will be a separate event, with state for each event set to
   that of the source stream."
+  ([service src] (stream-events service src {}))
 
-  [service src ttl tags]
-
-  (let [state (stream-state src)
-        now (timestamp)]
-    (map (fn [[k v]]
-           {:service (str service " " (name k))
-            :state state
-            :time now
-            :ttl ttl
-            :tags tags
-            :metric v})
-         (stream-metrics src))))
+  ([service src base-event]
+   (let [state (stream-state src)
+         now (timestamp)]
+     (map (fn [[k v]]
+            (merge {:service (str service " " (name k))
+                    :state state
+                    :time now
+                    :metric v}
+                   base-event))
+          (stream-metrics src)))))
 
 
 (defprotocol RiemannSender
@@ -71,18 +70,22 @@
   "Send metrics for a manifold stream to Riemann. This will
   periodically send information provide from
   `manifold.stream/description` along with a derived state as Riemann
-  events."
+  events.
 
-  [src c service period ttl & tags]
+  Accepts an optional map to include in each event."
 
-  (let [f (fn []
-            (stream-events service
-                           src
-                           ttl
-                           (conj tags "manifold-stream")))
-        events (s/periodically period f)]
+  ([src c service period]
+   (instrument src c service period {}))
 
-    (consume-metrics c events)))
+  ([src c service period event-data]
+   (let [f (fn []
+             (stream-events service
+                            src
+                            event-data))
+
+         events (s/periodically period f)]
+
+     (consume-metrics c events))))
 
 
 (defn tap

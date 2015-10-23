@@ -1,4 +1,4 @@
-(defproject riemann-manifold "0.1.0"
+(defproject riemann-manifold "0.2.0"
   :description "Send metrics to Riemann with Manifold"
   :url "https://github.com/FundingCircle/riemann-manifold"
   :license {:name "BSD 3-Clause"
