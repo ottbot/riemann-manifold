@@ -7,11 +7,10 @@
 (defn stream-state
   "Gives a string describing the state of a stream."
   [src]
-  (cond
-    (s/drained? src) "drained"
-    (s/closed? src) "closed"
-    :default "open"))
-
+  (condp apply [(s/description src)]
+    :drained? "drained"
+    :closed? "closed"
+    "open"))
 
 (defn stream-metrics
   "Filters a stream description only include those with numeric

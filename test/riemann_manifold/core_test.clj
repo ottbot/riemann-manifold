@@ -20,7 +20,13 @@
     (let [s' (s/stream)]
       (s/put! s' :x)
       (s/close! s')
-      (is (= "closed" (stream-state s'))))))
+      (is (= "closed" (stream-state s')))))
+
+  (testing "a source"
+    (let [s' (s/source-only (s/stream))]
+      (is (= "open" (stream-state s')))))
+
+  )
 
 (deftest stream-metrics-test
   (is (= (stream-metrics (s/stream))
@@ -35,17 +41,11 @@
                    service
                    "\"")))
 
-(defn query-tagged [tag]
-  @(r/query c (str "tagged \""
-                   tag
-                   "\"")))
-
-
 (deftest consume-metrics-test
   (let [src (s/stream)]
     (consume-metrics c src)
     @(s/put! src {:service "consumer-test"
-                  :ttl 0.5}) ; kind of brittle..
+                  :ttl 10})
     (is (pos? (count (query-service "consumer-test"))))))
 
 
@@ -57,12 +57,7 @@
       (instrument src c "instrument-test" 1)
       (is (= 1 (:metric
                 (first
-                 (query-service "instrument-test pending-puts"))))))
-
-    (testing "setting optional event values"
-      (instrument src c "boogie" 1 {:tags ["sweet-tag"]})
-      (is (pos? (count
-                 (query-tagged "sweet-tag")))))))
+                 (query-service "instrument-test pending-puts"))))))))
 
 (deftest tap-test
   (let [a (s/stream)
