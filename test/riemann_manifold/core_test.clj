@@ -20,7 +20,13 @@
     (let [s' (s/stream)]
       (s/put! s' :x)
       (s/close! s')
-      (is (= "closed" (stream-state s'))))))
+      (is (= "closed" (stream-state s')))))
+
+  (testing "a source"
+    (let [s' (s/source-only (s/stream))]
+      (is (= "open" (stream-state s')))))
+
+  )
 
 (deftest stream-metrics-test
   (is (= (stream-metrics (s/stream))
