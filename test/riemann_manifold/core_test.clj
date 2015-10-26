@@ -51,7 +51,7 @@
   (let [src (s/stream)]
     (consume-metrics c src)
     @(s/put! src {:service "consumer-test"
-                  :ttl 0.5}) ; kind of brittle..
+                  :ttl 10})
     (is (pos? (count (query-service "consumer-test"))))))
 
 
@@ -66,7 +66,8 @@
                  (query-service "instrument-test pending-puts"))))))
 
     (testing "setting optional event values"
-      (instrument src c "boogie" 1 {:tags ["sweet-tag"]})
+      (instrument src c "boogie" 1 {:ttl 100 :tags ["sweet-tag"]})
+      (Thread/sleep 100)
       (is (pos? (count
                  (query-tagged "sweet-tag")))))))
 
