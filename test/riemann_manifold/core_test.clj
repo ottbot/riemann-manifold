@@ -41,12 +41,6 @@
                    service
                    "\"")))
 
-(defn query-tagged [tag]
-  @(r/query c (str "tagged \""
-                   tag
-                   "\"")))
-
-
 (deftest consume-metrics-test
   (let [src (s/stream)]
     (consume-metrics c src)
@@ -63,13 +57,7 @@
       (instrument src c "instrument-test" 1)
       (is (= 1 (:metric
                 (first
-                 (query-service "instrument-test pending-puts"))))))
-
-    (testing "setting optional event values"
-      (instrument src c "boogie" 1 {:ttl 100 :tags ["sweet-tag"]})
-      (Thread/sleep 100)
-      (is (pos? (count
-                 (query-tagged "sweet-tag")))))))
+                 (query-service "instrument-test pending-puts"))))))))
 
 (deftest tap-test
   (let [a (s/stream)
