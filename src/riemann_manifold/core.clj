@@ -47,7 +47,7 @@
   (send! [m c] [c m t]))
 
 (extend-protocol RiemannSender
-  clojure.lang.PersistentArrayMap
+  clojure.lang.IPersistentMap
   (send!
     ([m c] (send! m c 1000))
     ([m c t] (deref (r/send-event c m) t nil)))
